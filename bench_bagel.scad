@@ -29,19 +29,17 @@ if (Select==0) {
 module part_lid() {
     difference() {
         translate([0,0,h-r]) union() {
-            cylinder(h=r, d=d-r-0.1);
+            cylinder(h=r, d=d-(r*2)-0.6);
             
             translate([0,0,-1]) union() {
                 difference() {
-                    cylinder(h=1, r=d/2*0.6);
-                    cylinder(h=1, r=bolt_corner_w/2*1.1+1.5);
-                }
-                
-                linear_extrude(r+1) circle(bolt_corner_w/2*1.1, $fn=6);                
+                    cylinder(h=1, r=d/2*0.6-0.4);
+                    cylinder(h=1, r=bolt_corner_w/2*1.1+2);
+                }         
             }
         }
         translate([0,0,h-r]) lidBoltHolePattern();                           
-        cylinder(d=bolt_d, h=h);
+        cylinder(d=bolt_d+0.8, h=h);
     }
 }
 
@@ -49,8 +47,8 @@ module lidBoltHolePattern() {
     for(i=[0:90:270]) {
         rotate([0,0,i]) translate([0,h-(d/2*0.1),0]) union() {
             cylinder(d=Threaded_insert_bold_d,h=r);
-            translate([0,0,r/2]) {
-                cylinder(r1=Threaded_insert_bold_d/2,r2=Threaded_insert_bold_d,h=r/2);
+            translate([0,0,r/2-0.2]) {
+                cylinder(r1=Threaded_insert_bold_d/2,r2=Threaded_insert_bold_d,h=r/2+0.2);
             }
         }
     }
@@ -60,7 +58,7 @@ module part_riser() {
     difference() {
         riserBody();
         
-        cylinder(d=bolt_d, h=h);
+        cylinder(d=bolt_d+0.8, h=h);
         
         translate([0,0,h-r-bolt_head_h]) {
             linear_extrude(bolt_head_h) circle(bolt_corner_w/2*1.1, $fn=6);
@@ -79,7 +77,7 @@ module riserBody() {
         
         hex_section_h = riser_height-r-bolt_head_h;
         
-        translate([0,0,riser_height-hex_section_h]) linear_extrude(hex_section_h) circle(bolt_corner_w/2*1.1, $fn=6);
+        translate([0,0,riser_height-hex_section_h]) linear_extrude(hex_section_h) circle(bolt_corner_w/2*1.05, $fn=6);
     }
 }
 
@@ -145,8 +143,8 @@ module bodyCrossSection() {
             [r,d/2-r],
             [r,bolt_corner_w/2*1.1+1.4],
             [riser_height,bolt_corner_w/2*1.1+1.4],
-            [riser_height,bolt_d*0.6],
-            [0,bolt_d*0.6]
+            [riser_height,bolt_d/2+0.4],
+            [0,bolt_d/2+0.4]
         ]);
     }
 }
